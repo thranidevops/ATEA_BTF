@@ -1,5 +1,8 @@
 package pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Location {
 private double lat;
 private double lng;

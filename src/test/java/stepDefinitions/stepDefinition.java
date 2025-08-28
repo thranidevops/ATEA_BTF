@@ -15,6 +15,7 @@ import io.restassured.specification.ResponseSpecification;
 import resources.APIResources;
 import resources.TestDataBuild;
 import resources.Utils;
+import pojo.*;
 
 public class stepDefinition extends Utils{
 	RequestSpecification reqspec;
@@ -36,23 +37,35 @@ public class stepDefinition extends Utils{
 		
 		APIResources resourceAPI=APIResources.valueOf(resource);
 		System.out.println(resourceAPI.getResource());
-		resspec =new ResponseSpecBuilder().expectStatusCode(200).expectContentType(ContentType.JSON).build();
-		if(method.equalsIgnoreCase("POST"))
-		 response =reqspec.when().post(resourceAPI.getResource());
-		else if(method.equalsIgnoreCase("GET"))
-			 response =reqspec.when().get(resourceAPI.getResource());
-	    
+		resspec =getResponseSpec();
+		if (method.equalsIgnoreCase("POST")) {
+	        response = reqspec.when()
+	                          .post(resourceAPI.getResource())
+	                          .then()
+	                          .spec(resspec)
+	                          .extract()
+	                          .response();
+	    } else if (method.equalsIgnoreCase("GET")) {
+	        response = reqspec.when()
+	                          .get(resourceAPI.getResource())
+	                          .then()
+	                          .spec(resspec)
+	                          .extract()
+	                          .response();
+	    }
 	}
 	@Then("the API call got success with status code {int}")
 	public void the_api_call_got_success_with_status_code(Integer int1) {
 	   
 		System.out.println("the_api_call_got_success_with_status_code");
 		assertEquals(response.getStatusCode(),200);
+		
 	    
 	}
 	@Then("{string} in response body is {string}")
 	public void in_response_body_is(String keyValue, String Expectedvalue) {
-	    
+		System.out.println("Response Body: " + response.getBody().asString());
+
 		assertEquals(getJsonPath(response,keyValue),Expectedvalue);
 	    
 	}
@@ -62,8 +75,18 @@ public class stepDefinition extends Utils{
 	     place_id=getJsonPath(response,"place_id");
 		 reqspec=given().spec(requestSpecification()).queryParam("place_id",place_id);
 		 user_calls_with_http_request(resource,"GET");
-		  String actualName=getJsonPath(response,"name");
-		  assertEquals(actualName,expectedName);
+		 AddPlace getPlaceResponse = response.as(AddPlace.class);
+
+		// Now you can directly access fields
+		
+		System.out.println("Name: " + getPlaceResponse.getName());
+		System.out.println("Language: " + getPlaceResponse.getLanguage());
+		System.out.println("Address: " + getPlaceResponse.getAddress());
+
+		 
+		// String actualName=getJsonPath(response,"name");
+		 
+		  assertEquals(getPlaceResponse.getName(),expectedName);
 	}
 
 	

@@ -2,6 +2,8 @@ package pojo;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class AddPlace {
 
 	private int accuracy;
@@ -11,6 +13,7 @@ public class AddPlace {
 	private String website;
 	private String language;
 	private Location location;
+	 @JsonIgnore
 	private List<String> types;
 	public int getAccuracy() {
 		return accuracy;
