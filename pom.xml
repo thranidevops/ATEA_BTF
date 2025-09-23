@@ -54,7 +54,41 @@
     <artifactId>mongodb-driver-sync</artifactId>
     <version>4.11.1</version>
   </dependency>
-  
+  <!-- Selenium Java (latest stable 4.x version) -->
+    <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-java</artifactId>
+        <version>4.23.0</version>
+    </dependency>
+
+    <!-- WebDriverManager to auto-manage browser drivers -->
+    <dependency>
+        <groupId>io.github.bonigarcia</groupId>
+        <artifactId>webdrivermanager</artifactId>
+        <version>5.9.2</version>
+    </dependency>
+
+    <!-- TestNG (optional, if you want to run tests with TestNG instead of plain Java main method) -->
+    <dependency>
+        <groupId>org.testng</groupId>
+        <artifactId>testng</artifactId>
+        <version>7.10.2</version>
+        <scope>test</scope>
+    </dependency>
+      <!-- JUnit 4 (Cucumber runner) -->
+  <dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.13.2</version>
+    <scope>test</scope>
+  </dependency>
+  <dependency>
+  <groupId>io.cucumber</groupId>
+  <artifactId>cucumber-picocontainer</artifactId>
+  <version>7.15.0</version>
+  <scope>test</scope>
+</dependency>
+
   </dependencies>
   <build>
         <plugins>
